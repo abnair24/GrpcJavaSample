@@ -1,9 +1,9 @@
 package com.abn.grpcSample.protogen;
 
+import com.google.common.collect.ImmutableList;
 import com.google.protobuf.DescriptorProtos.*;
 import com.google.protobuf.Descriptors.*;
 import com.google.protobuf.DynamicMessage;
-
 
 import java.util.Map;
 
@@ -11,9 +11,20 @@ public class GenerateProtoDescriptor {
 
     public static void main(String[] args) throws Exception {
 
-        final String descFile = "/Users/aswathyn/Personal/Docs/Java-WS/gRPC-Java/src/main/proto/proto.desc";
+        final String protoPath = "/Users/aswathyn/Personal/Docs/Java-WS/gRPC-Java/src/main/proto";
+        final String descFile = protoPath+"/proto.desc";
         final String proto = "DynamicProto.proto";
         final String messageTypeName = "DynamicRequest";
+
+        ImmutableList<String> protocArgs = ImmutableList.<String>builder()
+                .add("--include_imports")
+                .add("--proto_path"+protoPath)
+                .add("--descriptor_set_out="+protoPath+descFile)
+                .add(proto)
+                .build();
+
+        int status = new ProtocInvoker().invoke(protocArgs);
+        System.out.println("status :"+status);
 
         Map<String, FileDescriptorProto> fileDescProtos =
                 ProtoUtility.getFileDescriptorProtos(descFile);
