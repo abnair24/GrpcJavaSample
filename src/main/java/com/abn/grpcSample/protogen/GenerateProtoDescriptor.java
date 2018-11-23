@@ -5,6 +5,8 @@ import com.google.protobuf.DescriptorProtos.*;
 import com.google.protobuf.Descriptors.*;
 import com.google.protobuf.DynamicMessage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class GenerateProtoDescriptor {
@@ -12,22 +14,24 @@ public class GenerateProtoDescriptor {
     public static void main(String[] args) throws Exception {
 
         final String protoPath = "/Users/aswathyn/Personal/Docs/Java-WS/gRPC-Java/src/main/proto";
-        final String descFile = protoPath+"/proto.desc";
         final String proto = "DynamicProto.proto";
         final String messageTypeName = "DynamicRequest";
 
+        //pb.bin or .desc whats the diff?
+        Path descFile = Files.createTempFile("protoDesc", ".desc");
+
         ImmutableList<String> protocArgs = ImmutableList.<String>builder()
                 .add("--include_imports")
-                .add("--proto_path"+protoPath)
-                .add("--descriptor_set_out="+protoPath+descFile)
+                .add("--proto_path=" + protoPath)
+                .add("--descriptor_set_out=" + descFile.toAbsolutePath().toString())
                 .add(proto)
                 .build();
-
+//
         int status = new ProtocInvoker().invoke(protocArgs);
-        System.out.println("status :"+status);
+        System.out.println("status :" + status);
 
         Map<String, FileDescriptorProto> fileDescProtos =
-                ProtoUtility.getFileDescriptorProtos(descFile);
+                ProtoUtility.getFileDescriptorProtos(descFile.toAbsolutePath().toString());
 
         FileDescriptorProto fileDescProto = fileDescProtos.get(proto);
 
@@ -68,4 +72,5 @@ public class GenerateProtoDescriptor {
         }
         System.out.println();
     }
+
 }
