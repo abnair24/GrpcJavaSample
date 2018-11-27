@@ -12,16 +12,26 @@ import java.util.Map;
 
 public class ProtoUtility {
 
+    /*
+    Generating fileDescriptorSet from desc file.
+     */
     public static FileDescriptorSet getFileDescriptorSet(String descriptorPath) throws Exception {
         FileDescriptorSet fileDescriptorSet = FileDescriptorSet.parseFrom(new FileInputStream(descriptorPath));
         return fileDescriptorSet;
     }
+
+    /*
+    Helper for generating fdset
+     */
 
     public static Map<String, FileDescriptorProto> getFileDescriptorProtos(String descFilePath) throws Exception {
         FileDescriptorSet fileDescSet = getFileDescriptorSet(descFilePath);
         return getFileDescriptorProtos(fileDescSet);
     }
 
+    /*
+   Generating FileDescriptorProtos from fdset
+    */
     public static Map<String, FileDescriptorProto> getFileDescriptorProtos(FileDescriptorSet fileDescSet) {
         Map<String, FileDescriptorProto> map = new HashMap<String, FileDescriptorProto>();
         List<FileDescriptorProto> fileDescProtos = fileDescSet.getFileList();
@@ -29,6 +39,15 @@ public class ProtoUtility {
             map.put(fileDescProto.getName(), fileDescProto);
         }
         return map;
+    }
+
+    public static ServiceDescriptor getServiceDescriptor(FileDescriptor fileDescriptor,String serviceName) {
+        ServiceDescriptor serviceDescriptor = fileDescriptor.findServiceByName(serviceName);
+        return serviceDescriptor;
+    }
+
+    public static MethodDescriptor getMethodDesciptor(ServiceDescriptor serviceDescriptor,String methodName) {
+        return serviceDescriptor.findMethodByName(methodName);
     }
 
     public static FileDescriptor[] getDependencies(Map<String, FileDescriptorProto> fileDescProtos, FileDescriptorProto fileDescProto) throws Exception {

@@ -7,6 +7,7 @@ import com.google.protobuf.DynamicMessage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 public class GenerateProtoDescriptor {
@@ -19,6 +20,9 @@ public class GenerateProtoDescriptor {
 
         //pb.bin or .desc whats the diff?
         Path descFile = Files.createTempFile("protoDesc", ".desc");
+        String serviceName ="Greeter";
+        String methodName ="SayHello";
+        String packageName= "com.abn";
 
         ImmutableList<String> protocArgs = ImmutableList.<String>builder()
                 .add("--include_imports")
@@ -30,14 +34,32 @@ public class GenerateProtoDescriptor {
         int status = new ProtocInvoker().invoke(protocArgs);
         System.out.println("status :" + status);
 
+        /*
+        Getting fd protos from fdset
+         */
         Map<String, FileDescriptorProto> fileDescProtos =
                 ProtoUtility.getFileDescriptorProtos(descFile.toAbsolutePath().toString());
 
+
+        /*
+        Extract fdproto details of proto of interest from fdprotos
+         */
         FileDescriptorProto fileDescProto = fileDescProtos.get(proto);
 
+
         FileDescriptor[] dependencies = ProtoUtility.getDependencies(fileDescProtos, fileDescProto);
+
+
         FileDescriptor fileDesc = FileDescriptor.buildFrom(fileDescProto, dependencies);
+
+        ServiceDescriptor serviceDescriptor = ProtoUtility.getServiceDescriptor(fileDesc,serviceName);
+
+        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDesciptor(serviceDescriptor,methodName);
+
+        List<ServiceDescriptor> services = fileDesc.getServices();
+
         Descriptor desc = fileDesc.findMessageTypeByName(messageTypeName);
+
 
 
         displayFieldDetails(desc.findFieldByName("id"));
@@ -57,6 +79,7 @@ public class GenerateProtoDescriptor {
         DynamicMessage dynMessage2 = DynamicMessage.parseFrom(desc, dynMessageInBytes);
 
         System.out.println(dynMessage2);
+
     }
 
 
