@@ -13,3 +13,5 @@ classes/
 .project
 .settings/*
 bin/*
+pt.proto
+GenerateProtoDescGJ.java

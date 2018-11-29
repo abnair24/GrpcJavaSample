@@ -57,6 +57,7 @@ dependencies {
     
     compile "io.grpc:grpc-all:1.16.1"
     compile group: 'com.github.os72', name: 'protoc-jar', version: '3.6.0'
+    compile group: 'org.projectlombok', name:'lombok', version: '1.18.4'
 
 }
 

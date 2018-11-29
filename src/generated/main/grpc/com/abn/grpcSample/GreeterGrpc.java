@@ -41,20 +41,20 @@ public final class GreeterGrpc {
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<com.abn.grpcSample.HelloRequest,
       com.abn.grpcSample.HelloResponse> getSayHelloMethod() {
+
     io.grpc.MethodDescriptor<com.abn.grpcSample.HelloRequest, com.abn.grpcSample.HelloResponse> getSayHelloMethod;
+
     if ((getSayHelloMethod = GreeterGrpc.getSayHelloMethod) == null) {
       synchronized (GreeterGrpc.class) {
         if ((getSayHelloMethod = GreeterGrpc.getSayHelloMethod) == null) {
-          GreeterGrpc.getSayHelloMethod = getSayHelloMethod = 
-              io.grpc.MethodDescriptor.<com.abn.grpcSample.HelloRequest, com.abn.grpcSample.HelloResponse>newBuilder()
+          GreeterGrpc.getSayHelloMethod = getSayHelloMethod = io.grpc.MethodDescriptor.<com.abn.grpcSample.HelloRequest, com.abn.grpcSample.HelloResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "helloworld.Greeter", "SayHello"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.abn.grpcSample.HelloRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.abn.grpcSample.HelloResponse.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(com.abn.grpcSample.HelloResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("SayHello"))
                   .build();
           }

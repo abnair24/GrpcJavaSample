@@ -4,25 +4,30 @@ import com.google.common.collect.ImmutableList;
 import com.google.protobuf.DescriptorProtos.*;
 import com.google.protobuf.Descriptors.*;
 import com.google.protobuf.DynamicMessage;
-
+import io.grpc.CallOptions;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.ClientCalls;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+
+import static io.grpc.MethodDescriptor.newBuilder;
 
 public class GenerateProtoDescriptor {
 
     public static void main(String[] args) throws Exception {
 
         final String protoPath = "/Users/aswathyn/Personal/Docs/Java-WS/gRPC-Java/src/main/proto";
-        final String proto = "DynamicProto.proto";
-        final String messageTypeName = "DynamicRequest";
+        final String proto = "HelloService.proto";
+        final String messageTypeName = "HelloRequest";
 
         //pb.bin or .desc whats the diff?
         Path descFile = Files.createTempFile("protoDesc", ".desc");
         String serviceName ="Greeter";
         String methodName ="SayHello";
-        String packageName= "com.abn";
+        String packageName= "helloworld";
 
         ImmutableList<String> protocArgs = ImmutableList.<String>builder()
                 .add("--include_imports")
@@ -56,29 +61,46 @@ public class GenerateProtoDescriptor {
 
         MethodDescriptor methodDescriptor = ProtoUtility.getMethodDesciptor(serviceDescriptor,methodName);
 
+
         List<ServiceDescriptor> services = fileDesc.getServices();
 
         Descriptor desc = fileDesc.findMessageTypeByName(messageTypeName);
 
 
 
-        displayFieldDetails(desc.findFieldByName("id"));
         displayFieldDetails(desc.findFieldByName("name"));
-        displayFieldDetails(desc.findFieldByName("address"));
 
-        System.out.println();
 
-        DynamicMessage dynMessage = DynamicMessage.newBuilder(desc)
-                .setField(desc.findFieldByName("id"), 1)
+        DynamicMessage request = DynamicMessage.newBuilder(desc)
                 .setField(desc.findFieldByName("name"), "John Lao")
-                .setField(desc.findFieldByName("address"), "Block 1 Happy St.")
                 .build();
 
-        byte[] dynMessageInBytes = dynMessage.toByteArray();
 
-        DynamicMessage dynMessage2 = DynamicMessage.parseFrom(desc, dynMessageInBytes);
+        io.grpc.MethodDescriptor.Builder<DynamicMessage,DynamicMessage> builder = newBuilder();
+        builder.setRequestMarshaller(new MarshallFor(methodDescriptor.getInputType()))
+                .setResponseMarshaller(new MarshallFor(methodDescriptor.getOutputType()))
+                .setFullMethodName(packageName+"."+ serviceName+"/"+methodName)
+                .setType(io.grpc.MethodDescriptor.MethodType.UNARY);
 
-        System.out.println(dynMessage2);
+        io.grpc.MethodDescriptor<DynamicMessage,DynamicMessage> getMethodDescriptor = builder.build();
+
+        ManagedChannel managedChannel= ManagedChannelBuilder
+                .forAddress("localhost", 42421)
+                .usePlaintext()
+                .build();
+
+
+        CallOptions callOptions = CallOptions.DEFAULT;
+
+        DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getMethodDescriptor, callOptions, request);
+
+        managedChannel.shutdown();
+
+//        byte[] dynMessageInBytes = request.toByteArray();
+//
+//        DynamicMessage dynMessage2 = DynamicMessage.parseFrom(desc, dynMessageInBytes);
+//
+//        System.out.println("Dynmessage2: "+dynMessage2);
 
     }
 
@@ -95,5 +117,6 @@ public class GenerateProtoDescriptor {
         }
         System.out.println();
     }
+
 
 }
