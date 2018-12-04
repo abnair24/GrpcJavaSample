@@ -53,7 +53,15 @@ public class GreeterClient {
                     .setGreeting(greeting)
                     .build();
 
+            /*
+            Blocking unary call stub
+             */
             GreetResponse response = stub.greet(request);
+
+            /*
+            Async stub unary call
+             */
+
 
             logger.info("Response "+response.toString());
         } catch (RuntimeException ex) {
@@ -71,7 +79,12 @@ public class GreeterClient {
         Greeting greeting = Greeting.newBuilder().setFirstName("ABN").setLastName("stream").build();
 
         GreetManyTimesRequest request = GreetManyTimesRequest.newBuilder().setGreeting(greeting).build();
+
+        /*
+        Server streaming using blocking stub
+         */
         Iterator<GreetManyTimesResponse> greetManyTimesResponse = stub.greetManyTimes(request);
+
 
         greetManyTimesResponse.forEachRemaining(response -> {
             logger.info("Response :"+response.getResult());
@@ -175,10 +188,21 @@ public class GreeterClient {
 
 
     public static void main(String[] args) throws Exception{
+
+        /*
+        Unary client
+         */
+       // GreeterClient greeterClient = new GreeterClient("localhost",42422);
+        /*
+        streaming client
+         */
         GreeterClient greeterClient = new GreeterClient("localhost",42422,"client streeaming");
 
         try {
             greeterClient.unaryCallGreet();
+    //            greeterClient.serverStreamingGreetManyTimes();
+//            greeterClient.clientStreamingLongGreet();
+//            greeterClient.bidirectGreetEveryone();
         } finally {
             greeterClient.shutdown();
         }

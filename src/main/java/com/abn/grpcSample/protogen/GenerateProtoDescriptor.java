@@ -85,7 +85,7 @@ public class GenerateProtoDescriptor {
         io.grpc.MethodDescriptor<DynamicMessage,DynamicMessage> getMethodDescriptor = builder.build();
 
         ManagedChannel managedChannel= ManagedChannelBuilder
-                .forAddress("localhost", 42421)
+                .forAddress("localhost", 42422)
                 .usePlaintext()
                 .build();
 
@@ -96,7 +96,7 @@ public class GenerateProtoDescriptor {
 
     //    response.getDescriptorForType().toProto().writeTo();
 
-        response.toString();
+        System.out.println(response.toString());
 
         managedChannel.shutdown();
 
