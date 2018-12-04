@@ -4,14 +4,35 @@ package helloworld;
 
 option java_multiple_files = true;
 option java_package = "com.abn.grpcSample";
-option java_outer_classname = "HelloWorldProto";
+option java_outer_classname = "GreeterServiceProto";
 
-// The greeting service definition.
-//service Greeter {
+
 service Greeter {
-    // Sends a greeting
-    rpc SayHello (HelloRequest) returns (HelloResponse) {}
+    // Sends a greeting - Unary
+    rpc SayHello (HelloRequest) returns (HelloResponse) {};
+
+    // Unary
+    rpc Greet(GreetRequest) returns (GreetResponse) {};
+
+    // Server Streaming
+    rpc GreetManyTimes(GreetManyTimesRequest) returns (stream GreetManyTimesResponse) {};
+
+    // GreeterClient streaming
+    rpc LongGreet(stream LongGreetRequest) returns (LongGreetResponse) {};
+
+    // Bidirectional streaming
+    rpc GreetEveryone(stream GreetEveryoneRequest) returns (stream GreetEveryoneResponse) {};
+
+    // RPC with deadlines
+    // this RPC will complete in no less than 300ms
+    rpc GreetWithDeadline(GreetWithDeadlineRequest) returns (GreetWithDeadlineResponse) {};
 }
+
+message Greeting {
+    string first_name = 1;
+    string last_name = 2;
+}
+
 
 // The request message containing the user's name.
 message HelloRequest {
@@ -21,4 +42,47 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloResponse {
     string message = 1;
+}
+
+message GreetRequest {
+    Greeting greeting = 1;
+}
+
+message GreetResponse {
+    string result = 1;
+}
+//Server streaming
+message GreetManyTimesRequest {
+    Greeting greeting = 1;
+}
+
+message GreetManyTimesResponse {
+    string result = 1;
+}
+
+// GreeterClient streaming
+message LongGreetRequest {
+    Greeting greeting = 1;
+}
+
+message LongGreetResponse {
+    string result = 1;
+}
+
+//Bidirectional
+message GreetEveryoneRequest {
+    Greeting greeting = 1;
+}
+
+message GreetEveryoneResponse {
+    string result = 1;
+}
+
+// Deadline RPC
+message GreetWithDeadlineRequest {
+    Greeting greeting = 1;
+}
+
+message GreetWithDeadlineResponse {
+    string result = 1;
 }

@@ -5,22 +5,21 @@ package com.abn.grpcSample;
 
 /**
  * <pre>
- * The response message containing the greetings
+ * Deadline RPC
  * </pre>
  *
- * Protobuf type {@code helloworld.HelloResponse}
+ * Protobuf type {@code helloworld.GreetWithDeadlineRequest}
  */
-public  final class HelloResponse extends
+public  final class GreetWithDeadlineRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:helloworld.HelloResponse)
-    HelloResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:helloworld.GreetWithDeadlineRequest)
+    GreetWithDeadlineRequestOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use HelloResponse.newBuilder() to construct.
-  private HelloResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use GreetWithDeadlineRequest.newBuilder() to construct.
+  private GreetWithDeadlineRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private HelloResponse() {
-    message_ = "";
+  private GreetWithDeadlineRequest() {
   }
 
   @java.lang.Override
@@ -28,7 +27,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private HelloResponse(
+  private GreetWithDeadlineRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -48,9 +47,16 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+            com.abn.grpcSample.Greeting.Builder subBuilder = null;
+            if (greeting_ != null) {
+              subBuilder = greeting_.toBuilder();
+            }
+            greeting_ = input.readMessage(com.abn.grpcSample.Greeting.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(greeting_);
+              greeting_ = subBuilder.buildPartial();
+            }
 
-            message_ = s;
             break;
           }
           default: {
@@ -74,49 +80,36 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloResponse_descriptor;
+    return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_GreetWithDeadlineRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloResponse_fieldAccessorTable
+    return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_GreetWithDeadlineRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.abn.grpcSample.HelloResponse.class, com.abn.grpcSample.HelloResponse.Builder.class);
+            com.abn.grpcSample.GreetWithDeadlineRequest.class, com.abn.grpcSample.GreetWithDeadlineRequest.Builder.class);
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 1;
-  private volatile java.lang.Object message_;
+  public static final int GREETING_FIELD_NUMBER = 1;
+  private com.abn.grpcSample.Greeting greeting_;
   /**
-   * <code>string message = 1;</code>
+   * <code>.helloworld.Greeting greeting = 1;</code>
    */
-  public java.lang.String getMessage() {
-    java.lang.Object ref = message_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      message_ = s;
-      return s;
-    }
+  public boolean hasGreeting() {
+    return greeting_ != null;
   }
   /**
-   * <code>string message = 1;</code>
+   * <code>.helloworld.Greeting greeting = 1;</code>
    */
-  public com.google.protobuf.ByteString
-      getMessageBytes() {
-    java.lang.Object ref = message_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      message_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public com.abn.grpcSample.Greeting getGreeting() {
+    return greeting_ == null ? com.abn.grpcSample.Greeting.getDefaultInstance() : greeting_;
+  }
+  /**
+   * <code>.helloworld.Greeting greeting = 1;</code>
+   */
+  public com.abn.grpcSample.GreetingOrBuilder getGreetingOrBuilder() {
+    return getGreeting();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -133,8 +126,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getMessageBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, message_);
+    if (greeting_ != null) {
+      output.writeMessage(1, getGreeting());
     }
     unknownFields.writeTo(output);
   }
@@ -145,8 +138,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getMessageBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, message_);
+    if (greeting_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(1, getGreeting());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -158,14 +152,17 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.abn.grpcSample.HelloResponse)) {
+    if (!(obj instanceof com.abn.grpcSample.GreetWithDeadlineRequest)) {
       return super.equals(obj);
     }
-    com.abn.grpcSample.HelloResponse other = (com.abn.grpcSample.HelloResponse) obj;
+    com.abn.grpcSample.GreetWithDeadlineRequest other = (com.abn.grpcSample.GreetWithDeadlineRequest) obj;
 
     boolean result = true;
-    result = result && getMessage()
-        .equals(other.getMessage());
+    result = result && (hasGreeting() == other.hasGreeting());
+    if (hasGreeting()) {
+      result = result && getGreeting()
+          .equals(other.getGreeting());
+    }
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -177,76 +174,78 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-    hash = (53 * hash) + getMessage().hashCode();
+    if (hasGreeting()) {
+      hash = (37 * hash) + GREETING_FIELD_NUMBER;
+      hash = (53 * hash) + getGreeting().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(byte[] data)
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(java.io.InputStream input)
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.abn.grpcSample.HelloResponse parseDelimitedFrom(java.io.InputStream input)
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.abn.grpcSample.HelloResponse parseDelimitedFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.abn.grpcSample.HelloResponse parseFrom(
+  public static com.abn.grpcSample.GreetWithDeadlineRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -259,7 +258,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.abn.grpcSample.HelloResponse prototype) {
+  public static Builder newBuilder(com.abn.grpcSample.GreetWithDeadlineRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -276,29 +275,29 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * The response message containing the greetings
+   * Deadline RPC
    * </pre>
    *
-   * Protobuf type {@code helloworld.HelloResponse}
+   * Protobuf type {@code helloworld.GreetWithDeadlineRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:helloworld.HelloResponse)
-      com.abn.grpcSample.HelloResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:helloworld.GreetWithDeadlineRequest)
+      com.abn.grpcSample.GreetWithDeadlineRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloResponse_descriptor;
+      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_GreetWithDeadlineRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloResponse_fieldAccessorTable
+      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_GreetWithDeadlineRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.abn.grpcSample.HelloResponse.class, com.abn.grpcSample.HelloResponse.Builder.class);
+              com.abn.grpcSample.GreetWithDeadlineRequest.class, com.abn.grpcSample.GreetWithDeadlineRequest.Builder.class);
     }
 
-    // Construct using com.abn.grpcSample.HelloResponse.newBuilder()
+    // Construct using com.abn.grpcSample.GreetWithDeadlineRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -316,25 +315,29 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      message_ = "";
-
+      if (greetingBuilder_ == null) {
+        greeting_ = null;
+      } else {
+        greeting_ = null;
+        greetingBuilder_ = null;
+      }
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloResponse_descriptor;
+      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_GreetWithDeadlineRequest_descriptor;
     }
 
     @java.lang.Override
-    public com.abn.grpcSample.HelloResponse getDefaultInstanceForType() {
-      return com.abn.grpcSample.HelloResponse.getDefaultInstance();
+    public com.abn.grpcSample.GreetWithDeadlineRequest getDefaultInstanceForType() {
+      return com.abn.grpcSample.GreetWithDeadlineRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.abn.grpcSample.HelloResponse build() {
-      com.abn.grpcSample.HelloResponse result = buildPartial();
+    public com.abn.grpcSample.GreetWithDeadlineRequest build() {
+      com.abn.grpcSample.GreetWithDeadlineRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -342,9 +345,13 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.abn.grpcSample.HelloResponse buildPartial() {
-      com.abn.grpcSample.HelloResponse result = new com.abn.grpcSample.HelloResponse(this);
-      result.message_ = message_;
+    public com.abn.grpcSample.GreetWithDeadlineRequest buildPartial() {
+      com.abn.grpcSample.GreetWithDeadlineRequest result = new com.abn.grpcSample.GreetWithDeadlineRequest(this);
+      if (greetingBuilder_ == null) {
+        result.greeting_ = greeting_;
+      } else {
+        result.greeting_ = greetingBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -383,19 +390,18 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.abn.grpcSample.HelloResponse) {
-        return mergeFrom((com.abn.grpcSample.HelloResponse)other);
+      if (other instanceof com.abn.grpcSample.GreetWithDeadlineRequest) {
+        return mergeFrom((com.abn.grpcSample.GreetWithDeadlineRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.abn.grpcSample.HelloResponse other) {
-      if (other == com.abn.grpcSample.HelloResponse.getDefaultInstance()) return this;
-      if (!other.getMessage().isEmpty()) {
-        message_ = other.message_;
-        onChanged();
+    public Builder mergeFrom(com.abn.grpcSample.GreetWithDeadlineRequest other) {
+      if (other == com.abn.grpcSample.GreetWithDeadlineRequest.getDefaultInstance()) return this;
+      if (other.hasGreeting()) {
+        mergeGreeting(other.getGreeting());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -412,11 +418,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.abn.grpcSample.HelloResponse parsedMessage = null;
+      com.abn.grpcSample.GreetWithDeadlineRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.abn.grpcSample.HelloResponse) e.getUnfinishedMessage();
+        parsedMessage = (com.abn.grpcSample.GreetWithDeadlineRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -426,73 +432,121 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object message_ = "";
+    private com.abn.grpcSample.Greeting greeting_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.abn.grpcSample.Greeting, com.abn.grpcSample.Greeting.Builder, com.abn.grpcSample.GreetingOrBuilder> greetingBuilder_;
     /**
-     * <code>string message = 1;</code>
+     * <code>.helloworld.Greeting greeting = 1;</code>
      */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = message_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        message_ = s;
-        return s;
+    public boolean hasGreeting() {
+      return greetingBuilder_ != null || greeting_ != null;
+    }
+    /**
+     * <code>.helloworld.Greeting greeting = 1;</code>
+     */
+    public com.abn.grpcSample.Greeting getGreeting() {
+      if (greetingBuilder_ == null) {
+        return greeting_ == null ? com.abn.grpcSample.Greeting.getDefaultInstance() : greeting_;
       } else {
-        return (java.lang.String) ref;
+        return greetingBuilder_.getMessage();
       }
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>.helloworld.Greeting greeting = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getMessageBytes() {
-      java.lang.Object ref = message_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        message_ = b;
-        return b;
+    public Builder setGreeting(com.abn.grpcSample.Greeting value) {
+      if (greetingBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        greeting_ = value;
+        onChanged();
       } else {
-        return (com.google.protobuf.ByteString) ref;
+        greetingBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.helloworld.Greeting greeting = 1;</code>
+     */
+    public Builder setGreeting(
+        com.abn.grpcSample.Greeting.Builder builderForValue) {
+      if (greetingBuilder_ == null) {
+        greeting_ = builderForValue.build();
+        onChanged();
+      } else {
+        greetingBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>.helloworld.Greeting greeting = 1;</code>
+     */
+    public Builder mergeGreeting(com.abn.grpcSample.Greeting value) {
+      if (greetingBuilder_ == null) {
+        if (greeting_ != null) {
+          greeting_ =
+            com.abn.grpcSample.Greeting.newBuilder(greeting_).mergeFrom(value).buildPartial();
+        } else {
+          greeting_ = value;
+        }
+        onChanged();
+      } else {
+        greetingBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.helloworld.Greeting greeting = 1;</code>
+     */
+    public Builder clearGreeting() {
+      if (greetingBuilder_ == null) {
+        greeting_ = null;
+        onChanged();
+      } else {
+        greeting_ = null;
+        greetingBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.helloworld.Greeting greeting = 1;</code>
+     */
+    public com.abn.grpcSample.Greeting.Builder getGreetingBuilder() {
+      
+      onChanged();
+      return getGreetingFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.helloworld.Greeting greeting = 1;</code>
+     */
+    public com.abn.grpcSample.GreetingOrBuilder getGreetingOrBuilder() {
+      if (greetingBuilder_ != null) {
+        return greetingBuilder_.getMessageOrBuilder();
+      } else {
+        return greeting_ == null ?
+            com.abn.grpcSample.Greeting.getDefaultInstance() : greeting_;
       }
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>.helloworld.Greeting greeting = 1;</code>
      */
-    public Builder setMessage(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      message_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string message = 1;</code>
-     */
-    public Builder clearMessage() {
-      
-      message_ = getDefaultInstance().getMessage();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string message = 1;</code>
-     */
-    public Builder setMessageBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      message_ = value;
-      onChanged();
-      return this;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.abn.grpcSample.Greeting, com.abn.grpcSample.Greeting.Builder, com.abn.grpcSample.GreetingOrBuilder> 
+        getGreetingFieldBuilder() {
+      if (greetingBuilder_ == null) {
+        greetingBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.abn.grpcSample.Greeting, com.abn.grpcSample.Greeting.Builder, com.abn.grpcSample.GreetingOrBuilder>(
+                getGreeting(),
+                getParentForChildren(),
+                isClean());
+        greeting_ = null;
+      }
+      return greetingBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(
@@ -507,41 +561,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:helloworld.HelloResponse)
+    // @@protoc_insertion_point(builder_scope:helloworld.GreetWithDeadlineRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:helloworld.HelloResponse)
-  private static final com.abn.grpcSample.HelloResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:helloworld.GreetWithDeadlineRequest)
+  private static final com.abn.grpcSample.GreetWithDeadlineRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.abn.grpcSample.HelloResponse();
+    DEFAULT_INSTANCE = new com.abn.grpcSample.GreetWithDeadlineRequest();
   }
 
-  public static com.abn.grpcSample.HelloResponse getDefaultInstance() {
+  public static com.abn.grpcSample.GreetWithDeadlineRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<HelloResponse>
-      PARSER = new com.google.protobuf.AbstractParser<HelloResponse>() {
+  private static final com.google.protobuf.Parser<GreetWithDeadlineRequest>
+      PARSER = new com.google.protobuf.AbstractParser<GreetWithDeadlineRequest>() {
     @java.lang.Override
-    public HelloResponse parsePartialFrom(
+    public GreetWithDeadlineRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new HelloResponse(input, extensionRegistry);
+      return new GreetWithDeadlineRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<HelloResponse> parser() {
+  public static com.google.protobuf.Parser<GreetWithDeadlineRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<HelloResponse> getParserForType() {
+  public com.google.protobuf.Parser<GreetWithDeadlineRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.abn.grpcSample.HelloResponse getDefaultInstanceForType() {
+  public com.abn.grpcSample.GreetWithDeadlineRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

@@ -74,13 +74,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.abn.grpcSample.HelloWorldProto.internal_static_helloworld_HelloRequest_descriptor;
+    return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.abn.grpcSample.HelloWorldProto.internal_static_helloworld_HelloRequest_fieldAccessorTable
+    return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.abn.grpcSample.HelloRequest.class, com.abn.grpcSample.HelloRequest.Builder.class);
   }
@@ -287,13 +287,13 @@ private static final long serialVersionUID = 0L;
       com.abn.grpcSample.HelloRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.abn.grpcSample.HelloWorldProto.internal_static_helloworld_HelloRequest_descriptor;
+      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.abn.grpcSample.HelloWorldProto.internal_static_helloworld_HelloRequest_fieldAccessorTable
+      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.abn.grpcSample.HelloRequest.class, com.abn.grpcSample.HelloRequest.Builder.class);
     }
@@ -324,7 +324,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.abn.grpcSample.HelloWorldProto.internal_static_helloworld_HelloRequest_descriptor;
+      return com.abn.grpcSample.GreeterServiceProto.internal_static_helloworld_HelloRequest_descriptor;
     }
 
     @java.lang.Override
