@@ -68,5 +68,17 @@ public class ProtoUtility {
 
         return dependencies;
     }
+
+    public static io.grpc.MethodDescriptor.MethodType getMethodType(MethodDescriptor methodDescriptor){
+        if(!methodDescriptor.toProto().getServerStreaming() && !methodDescriptor.toProto().getClientStreaming()) {
+            return io.grpc.MethodDescriptor.MethodType.UNARY;
+        } else if(!methodDescriptor.toProto().getServerStreaming() && methodDescriptor.toProto().getClientStreaming()) {
+            return io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING;
+        } else if(methodDescriptor.toProto().getServerStreaming() && !methodDescriptor.toProto().getClientStreaming()) {
+            return io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING;
+        } else {
+            return io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING;
+        }
+    }
 }
 

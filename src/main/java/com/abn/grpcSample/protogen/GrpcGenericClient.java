@@ -9,6 +9,8 @@ import io.grpc.ClientCall;
 import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor;
 import io.grpc.stub.ClientCalls;
+import io.grpc.stub.StreamObserver;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -38,14 +40,62 @@ public class GrpcGenericClient {
         Iterator<DynamicMessage> response = ClientCalls.blockingServerStreamingCall(managedChannel,
                 methodDescriptor,callOptions,request);
 
-        response.forEachRemaining(r -> r.toString());
+        response.forEachRemaining(r -> {
+            System.out.println(r.toString());
+        });
     }
 
     public void clientStreamingCall(ManagedChannel managedChannel,
                                     MethodDescriptor<DynamicMessage,DynamicMessage> methodDescriptor,
                                     CallOptions callOptions,DynamicMessage request) {
 
+        ClientCall<DynamicMessage,DynamicMessage> clientCall = managedChannel.newCall(methodDescriptor,callOptions);
 
+
+        StreamObserver<DynamicMessage> streamResponse = ClientCalls.asyncClientStreamingCall(clientCall,
+                new StreamObserver<DynamicMessage>() {
+
+            @Override
+            public void onNext(DynamicMessage value) {
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
     }
 
+    public void bidirectionalStreaming(ManagedChannel managedChannel,
+                                       MethodDescriptor<DynamicMessage,DynamicMessage> methodDescriptor,
+                                       CallOptions callOptions, DynamicMessage request) {
+
+        ClientCall<DynamicMessage, DynamicMessage> clientCall = managedChannel.newCall(methodDescriptor, callOptions);
+
+
+        StreamObserver<DynamicMessage> streamResponse = ClientCalls.asyncBidiStreamingCall(clientCall,
+                new StreamObserver<DynamicMessage>() {
+                    @Override
+                    public void onNext(DynamicMessage value) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+
+    }
 }

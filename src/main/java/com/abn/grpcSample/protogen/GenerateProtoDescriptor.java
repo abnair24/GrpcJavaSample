@@ -61,7 +61,6 @@ public class GenerateProtoDescriptor {
 
         MethodDescriptor methodDescriptor = ProtoUtility.getMethodDesciptor(serviceDescriptor,methodName);
 
-
         List<ServiceDescriptor> services = fileDesc.getServices();
 
         Descriptor desc = fileDesc.findMessageTypeByName(messageTypeName);
@@ -75,12 +74,11 @@ public class GenerateProtoDescriptor {
                 .setField(desc.findFieldByName("name"), "John Lao")
                 .build();
 
-
         io.grpc.MethodDescriptor.Builder<DynamicMessage,DynamicMessage> builder = newBuilder();
         builder.setRequestMarshaller(new MarshallFor(methodDescriptor.getInputType()))
                 .setResponseMarshaller(new MarshallFor(methodDescriptor.getOutputType()))
                 .setFullMethodName(packageName+"."+ serviceName+"/"+methodName)
-                .setType(io.grpc.MethodDescriptor.MethodType.UNARY);
+                .setType(ProtoUtility.getMethodType(methodDescriptor));
 
         io.grpc.MethodDescriptor<DynamicMessage,DynamicMessage> getMethodDescriptor = builder.build();
 
@@ -89,15 +87,10 @@ public class GenerateProtoDescriptor {
                 .usePlaintext()
                 .build();
 
-
         CallOptions callOptions = CallOptions.DEFAULT;
 
-        DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getMethodDescriptor, callOptions, request);
+        //DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getMethodDescriptor, callOptions, request);
 
-
-    //    response.getDescriptorForType().toProto().writeTo();
-
-        System.out.println(response.toString());
 
         managedChannel.shutdown();
 
