@@ -94,6 +94,7 @@ public class GenerateProtoDescriptor {
 
         DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getMethodDescriptor, callOptions, request);
 
+
     //    response.getDescriptorForType().toProto().writeTo();
 
         System.out.println(response.toString());
