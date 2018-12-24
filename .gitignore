@@ -15,3 +15,5 @@ classes/
 bin/*
 pt.proto
 GenerateProtoDescGJ.java
+AllocatePointsTokenRequest.java
+AllocatePointsTokenRequestBuilder.java

@@ -65,8 +65,6 @@ public class GenerateProtoDescriptor {
 
         Descriptor desc = fileDesc.findMessageTypeByName(messageTypeName);
 
-
-
         displayFieldDetails(desc.findFieldByName("name"));
 
 
@@ -91,6 +89,7 @@ public class GenerateProtoDescriptor {
 
         //DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getMethodDescriptor, callOptions, request);
 
+        new GrpcGenericClient().unaryCall(managedChannel,getMethodDescriptor,callOptions,request);
 
         managedChannel.shutdown();
 

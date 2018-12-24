@@ -24,13 +24,15 @@ public class GrpcGenericClient {
     /*
     Need a generic format for return type
      */
-    public String unaryCall(ManagedChannel managedChannel,
+    public DynamicMessage unaryCall(ManagedChannel managedChannel,
                           MethodDescriptor<DynamicMessage,DynamicMessage> methodDescriptor,
                           CallOptions callOptions,DynamicMessage request) {
 
         DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,methodDescriptor,callOptions,request);
 
-        return response.toString();
+        System.out.println("response :" +response.toString());
+
+        return response;
     }
 
     public void serverStreamingCall(ManagedChannel managedChannel,
