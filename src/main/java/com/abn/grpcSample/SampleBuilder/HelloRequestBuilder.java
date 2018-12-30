@@ -5,8 +5,8 @@ public class HelloRequestBuilder {
     HelloRequest helloRequest;
 
     public HelloRequestBuilder() {
-        helloRequest = new HelloRequest();
-        helloRequest.setName("ABN");
+        helloRequest = new HelloRequest("DEFAULT_NAME");
+        helloRequest.setName("sasi");
     }
 
     public HelloRequest build() {

@@ -1,11 +1,14 @@
 package com.abn.grpcSample.protogen;
 
+import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
+import com.google.common.collect.ImmutableList;
 import com.google.protobuf.DescriptorProtos.*;
 import com.google.protobuf.*;
 import com.google.protobuf.Descriptors.*;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +82,44 @@ public class ProtoUtility {
         } else {
             return io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING;
         }
+    }
+
+    public static MethodDescriptor getMethodDescriptor(ProtoDetail protoDetail) throws Exception{
+        Path descFile = Files.createTempFile("protoDesc", ".desc");
+
+        ImmutableList<String> protocArgs = ImmutableList.<String>builder()
+                .add("--include_imports")
+                .add("--proto_path=" + protoDetail.getProtoPath())
+                .add("--descriptor_set_out=" + descFile.toAbsolutePath().toString())
+                .add(protoDetail.getProtoWithExtention())
+                .build();
+
+        new ProtocInvoker().invoke(protocArgs);
+
+        FileDescriptor fileDesc = getFileDescriptor(descFile, protoDetail.getProtoWithExtention());
+
+        ServiceDescriptor serviceDescriptor = ProtoUtility.getServiceDescriptor(fileDesc, protoDetail.getServiceName());
+
+        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDesciptor(serviceDescriptor,protoDetail.getMethodName());
+
+        return methodDescriptor;
+
+    }
+
+    private static FileDescriptor getFileDescriptor(Path descFile, String protoWithExtention) throws Exception
+    {
+
+        Map<String, FileDescriptorProto> fileDescProtos =
+                ProtoUtility.getFileDescriptorProtos(descFile.toAbsolutePath().toString());
+
+        FileDescriptorProto fileDescProto = fileDescProtos.get(protoWithExtention);
+
+        FileDescriptor[] dependencies = ProtoUtility.getDependencies(fileDescProtos, fileDescProto);
+
+        FileDescriptor fileDesc = FileDescriptor.buildFrom(fileDescProto, dependencies);
+
+        return fileDesc;
+
     }
 }
 
