@@ -5,7 +5,7 @@ import com.abn.grpcSample.SampleBuilder.HelloRequestBuilder;
 import com.abn.grpcSample.SampleBuilder.HelloResponse;
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
-import com.google.gson.Gson;
+
 
 public class DemoMain {
 

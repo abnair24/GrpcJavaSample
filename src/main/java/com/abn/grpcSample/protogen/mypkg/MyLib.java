@@ -1,8 +1,5 @@
 package com.abn.grpcSample.protogen.mypkg;
 
-import com.abn.grpcSample.HelloResponse;
-import com.abn.grpcSample.SampleBuilder.HelloRequest;
-import com.abn.grpcSample.SampleBuilder.HelloRequestBuilder;
 import com.abn.grpcSample.protogen.*;
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
@@ -13,8 +10,8 @@ import com.google.protobuf.DynamicMessage;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
-import java.lang.reflect.Type;
 
 public class MyLib<In, Out> {
 
@@ -34,19 +31,38 @@ public class MyLib<In, Out> {
         DynamicMessage requestAsDynamicMessage =
                 convertRequestObjectToDynamicMessage(methodDescriptorInputType, requestObject);
 
+        io.grpc.MethodDescriptor.MethodType methodType = ProtoUtility.getMethodType(methodDescriptor);
+
+
         io.grpc.MethodDescriptor<DynamicMessage,DynamicMessage> getMethodDescriptor =
                 io.grpc.MethodDescriptor.<DynamicMessage, DynamicMessage>newBuilder().
                         setRequestMarshaller(new MarshallFor(methodDescriptorInputType))
                         .setResponseMarshaller(new MarshallFor(methodDescriptor.getOutputType()))
                         .setFullMethodName(protoDetail.getMethodFullName())
-                        .setType(ProtoUtility.getMethodType(methodDescriptor)).build();
+                        .setType(methodType).build();
 
         ManagedChannel managedChannel= serverConfig.getManagedChannel();
 
+        DynamicMessage responseAsDynamicMessage = null;
+        if(methodType == io.grpc.MethodDescriptor.MethodType.UNARY) {
 
-        DynamicMessage responseAsDynamicMessage =
-                new GrpcGenericClient().unaryCall(managedChannel ,getMethodDescriptor,
-                        CallOptions.DEFAULT,requestAsDynamicMessage);
+            responseAsDynamicMessage = new GrpcGenericClient()
+                    .unaryCall(managedChannel ,getMethodDescriptor, CallOptions.DEFAULT,requestAsDynamicMessage);
+
+        } else if(methodType == io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING) {
+
+            new GrpcGenericClient()
+                    .serverStreamingCall(managedChannel,getMethodDescriptor,CallOptions.DEFAULT,requestAsDynamicMessage);
+        } else if(methodType == io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING) {
+
+            new GrpcGenericClient()
+                    .clientStreamingCall(managedChannel,getMethodDescriptor, CallOptions.DEFAULT,requestAsDynamicMessage);
+        } else {
+            new GrpcGenericClient()
+                    .bidirectionalStreaming(managedChannel,getMethodDescriptor,CallOptions.DEFAULT,requestAsDynamicMessage);
+        }
+
+
         JsonFormat.Printer printer = JsonFormat.printer();
         String response = printer.print(responseAsDynamicMessage);
         System.out.println("response: " +response);
