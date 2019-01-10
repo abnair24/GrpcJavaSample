@@ -40,7 +40,7 @@ public class ProtoDetail {
 
     public String getMethodFullName()
     {
-    return this.getPackageName()+"."+ this.getServiceName()+"/"+this.getMethodName();
+        return this.getPackageName()+"."+ this.getServiceName()+"/"+this.getMethodName();
     }
 
 }

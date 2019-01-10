@@ -1,8 +1,5 @@
 package com.abn.grpcSample.protogen;
 
-
-
-
 import com.google.protobuf.DynamicMessage;
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
@@ -10,8 +7,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor;
 import io.grpc.stub.ClientCalls;
 import io.grpc.stub.StreamObserver;
-import jdk.nashorn.internal.codegen.CompilerConstants;
-
 import java.util.Iterator;
 import java.util.logging.Logger;
 
