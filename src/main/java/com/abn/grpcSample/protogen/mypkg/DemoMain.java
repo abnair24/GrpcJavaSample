@@ -33,4 +33,11 @@ public class DemoMain {
     //writing unit tests
     // documentation
 
+
+    /*Observations : 1) Too many input arguments - input method name in full format (package+service+method name)
+     and use inbuilt METHODS to seperate out.
+                     2) Allow to take input in json format (just like passing json body in rest -assured)
+                     3) Clean up structure out protoparsing and arrange
+                     */
+
 }
