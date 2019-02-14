@@ -7,7 +7,6 @@ import com.google.protobuf.DynamicMessage;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.stub.ClientCalls;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -42,6 +41,9 @@ public class GenerateProtoDescriptor {
         /*
         Getting fd protos from fdset
          */
+
+
+
         Map<String, FileDescriptorProto> fileDescProtos =
                 ProtoUtility.getFileDescriptorProtos(descFile.toAbsolutePath().toString());
 
@@ -50,7 +52,6 @@ public class GenerateProtoDescriptor {
         Extract fdproto details of proto of interest from fdprotos
          */
         FileDescriptorProto fileDescProto = fileDescProtos.get(proto);
-
 
         FileDescriptor[] dependencies = ProtoUtility.getDependencies(fileDescProtos, fileDescProto);
 

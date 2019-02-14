@@ -1,5 +1,7 @@
 package com.abn.grpcSample.protogen.mypkg.domain;
 
+import io.grpc.MethodDescriptor;
+
 public class ProtoDetail {
 
     private final String protoPath;
@@ -41,6 +43,17 @@ public class ProtoDetail {
     public String getMethodFullName()
     {
         return this.getPackageName()+"."+ this.getServiceName()+"/"+this.getMethodName();
+    }
+
+    public void extract(String fullServiceName) {
+
+        String fullService = MethodDescriptor.extractFullServiceName(fullServiceName);
+        String methodName = fullServiceName.substring(fullService.length()+1);
+        int index = fullServiceName.lastIndexOf('.');
+        String packageName = fullServiceName.substring(0, index);
+
+        String serviceName = fullServiceName.substring(index + 1);
+
     }
 
 }
