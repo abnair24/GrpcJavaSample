@@ -6,6 +6,8 @@ import com.abn.grpcSample.SampleBuilder.HelloResponse;
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
 
+import java.util.Properties;
+
 
 public class DemoMain {
 
@@ -15,11 +17,10 @@ public class DemoMain {
 
         final String protoPath = "/Users/aswathyn/Personal/Docs/Java-WS/gRPC-Java/src/main/proto";
         final String proto = "HelloService";
-        String packageName = "helloworld";
-        String serviceName = "Greeter";
-        String methodName = "SayHello";
 
-        ProtoDetail protoDetail = new ProtoDetail(protoPath, proto, packageName, serviceName, methodName);
+        String fullMethod = "helloworld.Greeter/SayHello";
+
+        ProtoDetail protoDetail = new ProtoDetail(protoPath, proto, fullMethod);
         HelloRequest helloRequest = new HelloRequestBuilder().build();
 
         MyLib<HelloRequest, HelloResponse> myLib = new MyLib<>();

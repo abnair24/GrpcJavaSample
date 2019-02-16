@@ -2,6 +2,8 @@ package com.abn.grpcSample.protogen.mypkg.domain;
 
 import io.grpc.MethodDescriptor;
 
+import java.sql.SQLOutput;
+
 public class ProtoDetail {
 
     private final String protoPath;
@@ -12,12 +14,21 @@ public class ProtoDetail {
 
     private static final  String PROTO_FILE_EXTENSION = ".proto";
 
-    public ProtoDetail(String protoPath, String proto, String packageName, String serviceName, String methodName) {
+    public ProtoDetail(String protoPath, String proto, String fullMethodName) {
+
+        String fullService = MethodDescriptor.extractFullServiceName(fullMethodName);
+        String methodName = fullMethodName.substring(fullService.length()+1);
+        int index = fullMethodName.lastIndexOf('.');
+        String packageName = fullMethodName.substring(0, index);
+
+        String serviceName = fullService.substring(index + 1);
+
         this.protoPath = protoPath;
         this.proto = proto;
         this.serviceName = serviceName;
         this.packageName = packageName;
         this.methodName = methodName;
+
     }
 
     public String getProtoPath() {
@@ -43,17 +54,6 @@ public class ProtoDetail {
     public String getMethodFullName()
     {
         return this.getPackageName()+"."+ this.getServiceName()+"/"+this.getMethodName();
-    }
-
-    public void extract(String fullServiceName) {
-
-        String fullService = MethodDescriptor.extractFullServiceName(fullServiceName);
-        String methodName = fullServiceName.substring(fullService.length()+1);
-        int index = fullServiceName.lastIndexOf('.');
-        String packageName = fullServiceName.substring(0, index);
-
-        String serviceName = fullServiceName.substring(index + 1);
-
     }
 
 }
