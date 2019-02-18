@@ -21,11 +21,15 @@ public class DemoMain {
         String fullMethod = "helloworld.Greeter/SayHello";
 
         ProtoDetail protoDetail = new ProtoDetail(protoPath, proto, fullMethod);
-        HelloRequest helloRequest = new HelloRequestBuilder().build();
+       //HelloRequest helloRequest = new HelloRequestBuilder().build();
 
-        MyLib<HelloRequest, HelloResponse> myLib = new MyLib<>();
+       String helloRequest = "{ name :\"Sasi\"}";
+
+
+        MyLib myLib = new MyLib();
         HelloResponse helloResponse = myLib.getResponse(serverConfig, protoDetail, helloRequest, HelloResponse.class);
-        System.out.println("from the object:  " +helloResponse.getMessage());
+
+
     }
 
     //pending :

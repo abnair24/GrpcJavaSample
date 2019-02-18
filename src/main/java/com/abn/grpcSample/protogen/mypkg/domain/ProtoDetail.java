@@ -2,8 +2,6 @@ package com.abn.grpcSample.protogen.mypkg.domain;
 
 import io.grpc.MethodDescriptor;
 
-import java.sql.SQLOutput;
-
 public class ProtoDetail {
 
     private final String protoPath;
@@ -17,18 +15,34 @@ public class ProtoDetail {
     public ProtoDetail(String protoPath, String proto, String fullMethodName) {
 
         String fullService = MethodDescriptor.extractFullServiceName(fullMethodName);
-        String methodName = fullMethodName.substring(fullService.length()+1);
-        int index = fullMethodName.lastIndexOf('.');
-        String packageName = fullMethodName.substring(0, index);
 
-        String serviceName = fullService.substring(index + 1);
+        if(fullService == null) {
+            throw new IllegalArgumentException("Failed extracting service name"+fullMethodName);
+        }
+
+        String methodName = getMethodName(fullMethodName, fullService.length());
+
+        String packageName = getPackageName(fullMethodName);
+
+        String serviceName = getServiceName(fullService, fullMethodName.lastIndexOf('.'));
 
         this.protoPath = protoPath;
         this.proto = proto;
         this.serviceName = serviceName;
         this.packageName = packageName;
         this.methodName = methodName;
+    }
 
+    private String getServiceName(String fullService, int i) {
+        return getMethodName(fullService, i);
+    }
+
+    private String getPackageName(String fullMethodName) {
+        return fullMethodName.substring(0, fullMethodName.lastIndexOf('.'));
+    }
+
+    private String getMethodName(String fullMethodName, int length) {
+        return fullMethodName.substring(length + 1);
     }
 
     public String getProtoPath() {
