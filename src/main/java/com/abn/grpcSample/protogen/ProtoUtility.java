@@ -89,6 +89,7 @@ public class ProtoUtility {
 
         ImmutableList<String> protocArgs = ImmutableList.<String>builder()
                 .add("--include_imports")
+                .add("--include_std_types")
                 .add("--proto_path=" + protoDetail.getProtoPath())
                 .add("--descriptor_set_out=" + descFile.toAbsolutePath().toString())
                 .add(protoDetail.getProtoWithExtention())

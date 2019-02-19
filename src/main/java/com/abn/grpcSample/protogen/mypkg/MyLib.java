@@ -78,8 +78,11 @@ public class MyLib {
 
     private <Out> Out convertDynamicMessagetoResponseObject(DynamicMessage dynamicMessage, Class<Out> outputClass)
             throws InvalidProtocolBufferException {
+
         JsonFormat.Printer printer = JsonFormat.printer();
+
         String response = printer.print(dynamicMessage);
+
         System.out.println("response: " +response);
 
         return new Gson().fromJson(response, outputClass);

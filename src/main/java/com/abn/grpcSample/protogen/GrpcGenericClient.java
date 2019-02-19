@@ -25,8 +25,6 @@ public class GrpcGenericClient {
 
         DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,methodDescriptor,callOptions,request);
 
-        System.out.println("response :" +response.toString());
-
         return response;
     }
 
