@@ -21,14 +21,26 @@ public class DemoMain {
         String fullMethod = "helloworld.Greeter/SayHello";
 
         ProtoDetail protoDetail = new ProtoDetail(protoPath, proto, fullMethod);
-       //HelloRequest helloRequest = new HelloRequestBuilder().build();
+//        HelloRequest helloRequest = new HelloRequestBuilder().build();
+//
+//        requestAsObject(serverConfig,protoDetail,helloRequest);
 
-       String helloRequest = "{ name :\"Sasi\"}";
+        String helloRequest = "{ name :\"Sasi\"}";
+        jsonStringRequest(serverConfig,protoDetail,helloRequest);
+    }
 
 
+    public static void jsonStringRequest(ServerConfig serverConfig,ProtoDetail protoDetail, String helloRequest)
+            throws Exception {
         MyLib myLib = new MyLib();
         HelloResponse helloResponse = myLib.getResponse(serverConfig, protoDetail, helloRequest, HelloResponse.class);
 
+    }
+
+    public static void requestAsObject(ServerConfig serverConfig, ProtoDetail protoDetail, HelloRequest helloRequest)
+            throws Exception {
+        MyLib myLib = new MyLib();
+        HelloResponse helloResponse = myLib.getResponse(serverConfig, protoDetail, helloRequest, HelloResponse.class);
 
     }
 
@@ -39,9 +51,8 @@ public class DemoMain {
     // documentation
 
 
-    /*Observations : 1) Too many input arguments - input method name in full format (package+service+method name)
+    /*Observations :
      and use inbuilt METHODS to seperate out.
-                     2) Allow to take input in json format (just like passing json body in rest -assured)
                      3) Clean up structure out protoparsing and arrange
                      */
 

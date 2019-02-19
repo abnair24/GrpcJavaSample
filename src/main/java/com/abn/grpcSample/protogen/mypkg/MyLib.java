@@ -15,45 +15,41 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.MethodDescriptor.MethodType;
 
+public class MyLib {
 
-public class MyLib<Out> {
-
-    public Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, String requestJsonAsString,
+    public <Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, String requestJsonAsString,
                            Class<Out> outputClass) throws Exception {
 
         MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail);
 
         DynamicMessage requestAsDynamicMessage =
-                convertRequestObjectToDynamicMessage(methodDescriptor, requestJsonAsString);
+                convertJsonRequestToDynamicMessage(methodDescriptor, requestJsonAsString);
 
-
-        ManagedChannel managedChannel= getManagedChannel(serverConfig);
-        String methodFullName = protoDetail.getMethodFullName();
-
-        return getOut(managedChannel, methodFullName, outputClass, methodDescriptor, requestAsDynamicMessage);
+        return getOut(serverConfig,protoDetail, outputClass, methodDescriptor, requestAsDynamicMessage);
     }
 
 
-    public <In> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, In requestObject,
+    public <In,Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, In requestObject,
                            Class<Out> outputClass) throws Exception {
 
         MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail);
 
         DynamicMessage requestAsDynamicMessage =
-                convertRequestObjectToDynamicMessage(methodDescriptor, requestObject);
+                convertJsonRequestToDynamicMessage(methodDescriptor, requestObject);
 
-
-        ManagedChannel managedChannel= getManagedChannel(serverConfig);
-        String methodFullName = protoDetail.getMethodFullName();
-
-        return getOut(managedChannel, methodFullName, outputClass, methodDescriptor, requestAsDynamicMessage);
+        return getOut(serverConfig, protoDetail, outputClass, methodDescriptor, requestAsDynamicMessage);
     }
 
-    private Out getOut(ManagedChannel managedChannel, String methodFullName, Class<Out> outputClass,
+    private <Out> Out getOut(ServerConfig serverConfig, ProtoDetail protoDetail, Class<Out> outputClass,
                        MethodDescriptor methodDescriptor,
                        DynamicMessage requestAsDynamicMessage) throws InvalidProtocolBufferException {
 
+        ManagedChannel managedChannel= getManagedChannel(serverConfig);
+
+        String methodFullName = protoDetail.getMethodFullName();
+
         Out responseAsObject;
+
         MethodType methodType = ProtoUtility.getMethodType(methodDescriptor);
 
         if(methodType == MethodType.UNARY)
@@ -73,16 +69,14 @@ public class MyLib<Out> {
             responseAsObject = convertDynamicMessagetoResponseObject(responseAsDynamicMessage, outputClass);
 
             managedChannel.shutdown();
-
         }
         else {
             throw new RuntimeException("only UNARY methods supported");
         }
-
         return responseAsObject;
     }
 
-    private Out convertDynamicMessagetoResponseObject(DynamicMessage dynamicMessage, Class<Out> outputClass)
+    private <Out> Out convertDynamicMessagetoResponseObject(DynamicMessage dynamicMessage, Class<Out> outputClass)
             throws InvalidProtocolBufferException {
         JsonFormat.Printer printer = JsonFormat.printer();
         String response = printer.print(dynamicMessage);
@@ -91,41 +85,37 @@ public class MyLib<Out> {
         return new Gson().fromJson(response, outputClass);
     }
 
+    private <In> DynamicMessage convertJsonRequestToDynamicMessage(MethodDescriptor methodDescriptor,
+                                                                   In requestObject) throws Exception{
 
-    private <In> DynamicMessage convertRequestObjectToDynamicMessage(MethodDescriptor methodDescriptor,
-                                                                In requestObject) throws Exception{
+        String requestObjectAsJson = new GsonBuilder().create().toJson(requestObject);
 
-        String jsonString = new GsonBuilder().create().toJson(requestObject);
+        return getDynamicMessageBuilder(methodDescriptor, requestObjectAsJson).build();
+    }
+
+    private DynamicMessage convertJsonRequestToDynamicMessage(MethodDescriptor methodDescriptor,
+                                                              String jsonRequestAsString) throws Exception{
+
+        return getDynamicMessageBuilder(methodDescriptor, jsonRequestAsString).build();
+    }
+
+    private DynamicMessage.Builder getDynamicMessageBuilder(MethodDescriptor methodDescriptor, String jsonRequest) throws InvalidProtocolBufferException {
+
         JsonFormat.Parser jsonParser = JsonFormat.parser();
 
         Descriptor descriptor = methodDescriptor.getInputType();
 
         DynamicMessage.Builder dynamicMessageBuilder = DynamicMessage.newBuilder(descriptor);
-        jsonParser.merge(jsonString, dynamicMessageBuilder);
 
-        return dynamicMessageBuilder.build();
+        jsonParser.merge(jsonRequest, dynamicMessageBuilder);
+
+        return dynamicMessageBuilder;
     }
 
-    private DynamicMessage convertRequestObjectToDynamicMessage(MethodDescriptor methodDescriptor,
-                                                                     String requestJsonAsString) throws Exception{
-
-        JsonFormat.Parser jsonParser = JsonFormat.parser();
-
-        Descriptor descriptor = methodDescriptor.getInputType();
-
-        DynamicMessage.Builder dynamicMessageBuilder = DynamicMessage.newBuilder(descriptor);
-        jsonParser.merge(requestJsonAsString, dynamicMessageBuilder);
-
-        return dynamicMessageBuilder.build();
-    }
-
-    private ManagedChannel getManagedChannel(ServerConfig serverConfig)
-    {
+    private ManagedChannel getManagedChannel(ServerConfig serverConfig) {
         return ManagedChannelBuilder
                 .forAddress(serverConfig.getHostName(),serverConfig.getPortNumber())
                 .usePlaintext()
                 .build();
-
-
     }
 }
