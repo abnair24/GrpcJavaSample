@@ -1,4 +1,4 @@
-package com.abn.grpcSample.protogen;
+package com.abn.grpcSample.protogen.mypkg.utils;
 
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.google.common.collect.ImmutableList;
@@ -84,7 +84,10 @@ public class ProtoUtility {
         }
     }
 
-    public static MethodDescriptor getMethodDescriptor(ProtoDetail protoDetail) throws Exception{
+    public static Path getDescriptorBinary(ProtoDetail protoDetail) throws Exception{
+
+        int status;
+
         Path descFile = Files.createTempFile("protoDesc", ".desc");
 
         ImmutableList<String> protocArgs = ImmutableList.<String>builder()
@@ -95,7 +98,16 @@ public class ProtoUtility {
                 .add(protoDetail.getProtoWithExtention())
                 .build();
 
-        new ProtocInvoker().invoke(protocArgs);
+        status = new ProtocInvoker().invoke(protocArgs);
+
+        if(status != 0) {
+
+        }
+
+        return descFile;
+    }
+
+    public static MethodDescriptor getMethodDescriptor(ProtoDetail protoDetail, Path descFile) throws Exception {
 
         FileDescriptor fileDesc = getFileDescriptor(descFile, protoDetail.getProtoWithExtention());
 
@@ -104,7 +116,6 @@ public class ProtoUtility {
         MethodDescriptor methodDescriptor = ProtoUtility.getMethodDesciptor(serviceDescriptor,protoDetail.getMethodName());
 
         return methodDescriptor;
-
     }
 
     private static FileDescriptor getFileDescriptor(Path descFile, String protoWithExtention) throws Exception

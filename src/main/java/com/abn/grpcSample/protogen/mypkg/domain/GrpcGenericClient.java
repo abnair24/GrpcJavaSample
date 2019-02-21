@@ -1,4 +1,4 @@
-package com.abn.grpcSample.protogen;
+package com.abn.grpcSample.protogen.mypkg.domain;
 
 import com.google.protobuf.DynamicMessage;
 import io.grpc.CallOptions;

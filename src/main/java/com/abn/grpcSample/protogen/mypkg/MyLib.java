@@ -1,8 +1,10 @@
 package com.abn.grpcSample.protogen.mypkg;
 
-import com.abn.grpcSample.protogen.*;
+import com.abn.grpcSample.protogen.mypkg.domain.GrpcGenericClient;
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
+import com.abn.grpcSample.protogen.mypkg.utils.MarshallFor;
+import com.abn.grpcSample.protogen.mypkg.utils.ProtoUtility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,12 +17,16 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.MethodDescriptor.MethodType;
 
+import java.nio.file.Path;
+
 public class MyLib {
 
     public <Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, String requestJsonAsString,
                            Class<Out> outputClass) throws Exception {
 
-        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail);
+        Path binaryFilePath = ProtoUtility.getDescriptorBinary(protoDetail);
+
+        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail,binaryFilePath);
 
         DynamicMessage requestAsDynamicMessage =
                 convertJsonRequestToDynamicMessage(methodDescriptor, requestJsonAsString);
@@ -32,7 +38,9 @@ public class MyLib {
     public <In,Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, In requestObject,
                            Class<Out> outputClass) throws Exception {
 
-        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail);
+        Path binaryFilePath = ProtoUtility.getDescriptorBinary(protoDetail);
+
+        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail,binaryFilePath);
 
         DynamicMessage requestAsDynamicMessage =
                 convertJsonRequestToDynamicMessage(methodDescriptor, requestObject);

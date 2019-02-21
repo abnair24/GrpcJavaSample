@@ -1,4 +1,4 @@
-package com.abn.grpcSample.protogen;
+package com.abn.grpcSample.protogen.mypkg.utils;
 
 import com.github.os72.protocjar.Protoc;
 import com.google.common.collect.ImmutableList;

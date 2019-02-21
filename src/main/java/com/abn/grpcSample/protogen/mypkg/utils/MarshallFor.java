@@ -1,4 +1,4 @@
-package com.abn.grpcSample.protogen;
+package com.abn.grpcSample.protogen.mypkg.utils;
 
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.DynamicMessage;

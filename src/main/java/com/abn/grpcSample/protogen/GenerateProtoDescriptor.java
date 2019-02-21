@@ -1,5 +1,9 @@
 package com.abn.grpcSample.protogen;
 
+import com.abn.grpcSample.protogen.mypkg.domain.GrpcGenericClient;
+import com.abn.grpcSample.protogen.mypkg.utils.MarshallFor;
+import com.abn.grpcSample.protogen.mypkg.utils.ProtoUtility;
+import com.abn.grpcSample.protogen.mypkg.utils.ProtocInvoker;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.DescriptorProtos.*;
 import com.google.protobuf.Descriptors.*;
@@ -88,7 +92,7 @@ public class GenerateProtoDescriptor {
 
         CallOptions callOptions = CallOptions.DEFAULT;
 
-        //DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getMethodDescriptor, callOptions, request);
+        //DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getDescriptorBinary, callOptions, request);
 
         new GrpcGenericClient().unaryCall(managedChannel,getMethodDescriptor,callOptions,request);
 
