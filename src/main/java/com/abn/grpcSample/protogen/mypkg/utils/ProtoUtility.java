@@ -5,6 +5,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.protobuf.DescriptorProtos.*;
 import com.google.protobuf.*;
 import com.google.protobuf.Descriptors.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.FileInputStream;
 import java.nio.file.Files;
@@ -14,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ProtoUtility {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProtoUtility.class);
 
     /*
     Generating fileDescriptorSet from desc file.
@@ -101,7 +106,7 @@ public class ProtoUtility {
         status = new ProtocInvoker().invoke(protocArgs);
 
         if(status != 0) {
-
+            logger.error("Binary file generation failed with status : "+status);
         }
 
         return descFile;
