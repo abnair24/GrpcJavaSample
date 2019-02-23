@@ -1,5 +1,6 @@
 package com.abn.grpcSample.protogen.mypkg;
 
+import com.abn.grpcSample.protogen.mypkg.domain.ChannelBuilder;
 import com.abn.grpcSample.protogen.mypkg.domain.GrpcGenericClient;
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
@@ -31,7 +32,7 @@ public class MyLib {
         DynamicMessage requestAsDynamicMessage =
                 convertJsonRequestToDynamicMessage(methodDescriptor, requestJsonAsString);
 
-        return getOut(serverConfig,protoDetail, outputClass, methodDescriptor, requestAsDynamicMessage);
+        return getOut(serverConfig, protoDetail, outputClass, methodDescriptor, requestAsDynamicMessage);
     }
 
 
@@ -45,14 +46,16 @@ public class MyLib {
         DynamicMessage requestAsDynamicMessage =
                 convertJsonRequestToDynamicMessage(methodDescriptor, requestObject);
 
-        return getOut(serverConfig, protoDetail, outputClass, methodDescriptor, requestAsDynamicMessage);
+        Out out = getOut(serverConfig, protoDetail, outputClass, methodDescriptor, requestAsDynamicMessage);
+
+        return out;
     }
 
     private <Out> Out getOut(ServerConfig serverConfig, ProtoDetail protoDetail, Class<Out> outputClass,
                        MethodDescriptor methodDescriptor,
                        DynamicMessage requestAsDynamicMessage) throws InvalidProtocolBufferException {
 
-        ManagedChannel managedChannel= getManagedChannel(serverConfig);
+        ManagedChannel managedChannel= new ChannelBuilder().createChannel(serverConfig);
 
         String methodFullName = protoDetail.getMethodFullName();
 
@@ -123,10 +126,5 @@ public class MyLib {
         return dynamicMessageBuilder;
     }
 
-    private ManagedChannel getManagedChannel(ServerConfig serverConfig) {
-        return ManagedChannelBuilder
-                .forAddress(serverConfig.getHostName(),serverConfig.getPortNumber())
-                .usePlaintext()
-                .build();
-    }
+
 }

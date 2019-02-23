@@ -21,12 +21,12 @@ public class DemoMain {
         String fullMethod = "helloworld.Greeter/SayHello";
 
         ProtoDetail protoDetail = new ProtoDetail(protoPath, proto, fullMethod);
-//        HelloRequest helloRequest = new HelloRequestBuilder().build();
+            HelloRequest helloRequest = new HelloRequestBuilder().build();
 //
-//        requestAsObject(serverConfig,protoDetail,helloRequest);
+        requestAsObject(serverConfig,protoDetail,helloRequest);
 
-        String helloRequest = "{ name :\"Sasi\"}";
-        jsonStringRequest(serverConfig,protoDetail,helloRequest);
+//        String helloRequest = "{ name :\"Sasi\"}";
+//        jsonStringRequest(serverConfig,protoDetail,helloRequest);
     }
 
 
@@ -41,7 +41,6 @@ public class DemoMain {
             throws Exception {
         MyLib myLib = new MyLib();
         HelloResponse helloResponse = myLib.getResponse(serverConfig, protoDetail, helloRequest, HelloResponse.class);
-
     }
 
     //pending :
