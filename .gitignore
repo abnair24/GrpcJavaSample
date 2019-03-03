@@ -1,4 +1,7 @@
 .DS_Store
+src/generated/main/grpc/com/gopay/*
+src/generated/main/java/com/gopay/*
+
 build/
 out/
 .idea/

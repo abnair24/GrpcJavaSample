@@ -6,12 +6,19 @@ import java.util.Map;
 
 public class ChannelBuilder {
 
-    public ManagedChannel createChannel(ServerConfig serverConfig) {
+    public ManagedChannel createChannelWithMetadata(ServerConfig serverConfig) {
 
         return ManagedChannelBuilder
                 .forAddress(serverConfig.getHostName(), serverConfig.getPortNumber())
                 .usePlaintext()
                 .intercept(interceptor(serverConfig))
+                .build();
+    }
+
+    public ManagedChannel createChannel(ServerConfig serverConfig) {
+        return ManagedChannelBuilder
+                .forAddress(serverConfig.getHostName(), serverConfig.getPortNumber())
+                .usePlaintext()
                 .build();
     }
 

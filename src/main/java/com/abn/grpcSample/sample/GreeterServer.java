@@ -2,6 +2,7 @@ package com.abn.grpcSample.sample;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.protobuf.services.ProtoReflectionService;
 
 public class GreeterServer {
 
@@ -11,6 +12,7 @@ public class GreeterServer {
         Server server = ServerBuilder
                                 .forPort(42422)
                                 .addService(new GreeterServiceImpl())
+                                .addService(ProtoReflectionService.newInstance())
                                 .build();
 
         server.start();

@@ -15,7 +15,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.MethodDescriptor.MethodType;
 
 import java.nio.file.Path;
@@ -55,7 +54,7 @@ public class MyLib {
                        MethodDescriptor methodDescriptor,
                        DynamicMessage requestAsDynamicMessage) throws InvalidProtocolBufferException {
 
-        ManagedChannel managedChannel= new ChannelBuilder().createChannel(serverConfig);
+        ManagedChannel managedChannel= new ChannelBuilder().createChannelWithMetadata(serverConfig);
 
         String methodFullName = protoDetail.getMethodFullName();
 
