@@ -8,7 +8,6 @@ import com.abn.grpcSample.protogen.mypkg.utils.MarshallFor;
 import com.abn.grpcSample.protogen.mypkg.utils.ProtoUtility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.google.protobuf.Descriptors.*;
 import com.google.protobuf.DynamicMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -16,10 +15,14 @@ import com.google.protobuf.util.JsonFormat;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor.MethodType;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 
 public class MyLib {
+
+    private static final Logger logger = LoggerFactory.getLogger(MyLib.class);
+
 
     public <Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, String requestJsonAsString,
                            Class<Out> outputClass) throws Exception {

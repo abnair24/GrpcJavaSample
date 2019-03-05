@@ -1,8 +1,12 @@
 package com.abn.grpcSample.protogen.mypkg.domain;
 
 import io.grpc.MethodDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProtoDetail {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProtoDetail.class);
 
     private final String protoPath;
     private final String proto;

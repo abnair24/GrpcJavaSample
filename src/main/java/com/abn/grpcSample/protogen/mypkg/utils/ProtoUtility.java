@@ -7,8 +7,6 @@ import com.google.protobuf.*;
 import com.google.protobuf.Descriptors.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;

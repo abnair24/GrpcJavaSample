@@ -1,10 +1,13 @@
 package com.abn.grpcSample.protogen.mypkg.domain;
 
 import io.grpc.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 public class ChannelBuilder {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChannelBuilder.class);
 
     public ManagedChannel createChannelWithMetadata(ServerConfig serverConfig) {
 

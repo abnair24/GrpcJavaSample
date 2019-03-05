@@ -7,14 +7,13 @@ import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor;
 import io.grpc.stub.ClientCalls;
 import io.grpc.stub.StreamObserver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Iterator;
-import java.util.logging.Logger;
 
 public class GrpcGenericClient {
 
-    private static final Logger logger = Logger.getLogger(GrpcGenericClient.class.getName());
-    //private final ManagedChannel channel;
-
+    private static final Logger logger = LoggerFactory.getLogger(GrpcGenericClient.class);
 
     /*
     Need a generic format for return type

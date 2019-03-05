@@ -4,11 +4,15 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.DynamicMessage;
 import com.google.protobuf.ExtensionRegistryLite;
 import io.grpc.MethodDescriptor;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class MarshallFor implements MethodDescriptor.Marshaller<DynamicMessage> {
+
+    private static final Logger logger = LoggerFactory.getLogger(MarshallFor.class);
+
 
     private final Descriptors.Descriptor messageDescriptor;
 
