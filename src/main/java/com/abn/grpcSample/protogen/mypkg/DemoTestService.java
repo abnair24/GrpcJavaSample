@@ -10,11 +10,10 @@ public class DemoTestService {
         ServerConfig serverConfig = new ServerConfig("localhost", 44444);
 
         final String protoPath = "/Users/aswathyn/Personal/Docs/Java-WS/gRPC-Java/src/main/proto";
-        final String proto = "TestService";
 
         String fullMethod = "helloworld.test.TestService/TestMethod";
 
-        ProtoDetail protoDetail = new ProtoDetail(protoPath, proto, fullMethod);
+        ProtoDetail protoDetail = new ProtoDetail(protoPath, fullMethod);
 //        HelloRequest helloRequest = new HelloRequestBuilder().build();
 //
 //        requestAsObject(serverConfig,protoDetail,helloRequest);

@@ -9,7 +9,7 @@ public class HelloRequest {
 
     private String name;
 
-    public HelloRequest(String name) {
-        this.name = name;
-    }
+//   // public HelloRequest(String name) {
+//        this.name = name;
+//    }
 }

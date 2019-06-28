@@ -16,4 +16,9 @@ public interface HelloResponseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getMessageBytes();
+
+  /**
+   * <code>int32 age = 2;</code>
+   */
+  int getAge();
 }

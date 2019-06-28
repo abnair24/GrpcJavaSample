@@ -42,6 +42,7 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloResponse {
     string message = 1;
+    int32 age = 2;
 }
 
 message GreetRequest {

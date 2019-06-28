@@ -5,8 +5,9 @@ public class HelloRequestBuilder {
     HelloRequest helloRequest;
 
     public HelloRequestBuilder() {
-        helloRequest = new HelloRequest("DEFAULT_NAME");
+        helloRequest = new HelloRequest();
         helloRequest.setName("sasi");
+
     }
 
     public HelloRequest build() {

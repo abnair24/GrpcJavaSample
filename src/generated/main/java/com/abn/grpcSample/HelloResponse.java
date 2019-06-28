@@ -21,6 +21,7 @@ private static final long serialVersionUID = 0L;
   }
   private HelloResponse() {
     message_ = "";
+    age_ = 0;
   }
 
   @java.lang.Override
@@ -51,6 +52,11 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             message_ = s;
+            break;
+          }
+          case 16: {
+
+            age_ = input.readInt32();
             break;
           }
           default: {
@@ -119,6 +125,15 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int AGE_FIELD_NUMBER = 2;
+  private int age_;
+  /**
+   * <code>int32 age = 2;</code>
+   */
+  public int getAge() {
+    return age_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -136,6 +151,9 @@ private static final long serialVersionUID = 0L;
     if (!getMessageBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, message_);
     }
+    if (age_ != 0) {
+      output.writeInt32(2, age_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -147,6 +165,10 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (!getMessageBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, message_);
+    }
+    if (age_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(2, age_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -166,6 +188,8 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && getMessage()
         .equals(other.getMessage());
+    result = result && (getAge()
+        == other.getAge());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -179,6 +203,8 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
     hash = (53 * hash) + getMessage().hashCode();
+    hash = (37 * hash) + AGE_FIELD_NUMBER;
+    hash = (53 * hash) + getAge();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -318,6 +344,8 @@ private static final long serialVersionUID = 0L;
       super.clear();
       message_ = "";
 
+      age_ = 0;
+
       return this;
     }
 
@@ -345,6 +373,7 @@ private static final long serialVersionUID = 0L;
     public com.abn.grpcSample.HelloResponse buildPartial() {
       com.abn.grpcSample.HelloResponse result = new com.abn.grpcSample.HelloResponse(this);
       result.message_ = message_;
+      result.age_ = age_;
       onBuilt();
       return result;
     }
@@ -396,6 +425,9 @@ private static final long serialVersionUID = 0L;
       if (!other.getMessage().isEmpty()) {
         message_ = other.message_;
         onChanged();
+      }
+      if (other.getAge() != 0) {
+        setAge(other.getAge());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -491,6 +523,32 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       message_ = value;
+      onChanged();
+      return this;
+    }
+
+    private int age_ ;
+    /**
+     * <code>int32 age = 2;</code>
+     */
+    public int getAge() {
+      return age_;
+    }
+    /**
+     * <code>int32 age = 2;</code>
+     */
+    public Builder setAge(int value) {
+      
+      age_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 age = 2;</code>
+     */
+    public Builder clearAge() {
+      
+      age_ = 0;
       onChanged();
       return this;
     }

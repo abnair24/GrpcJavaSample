@@ -12,6 +12,7 @@ public class GreeterServiceImpl extends GreeterGrpc.GreeterImplBase {
         HelloResponse response = HelloResponse
                 .newBuilder()
                 .setMessage("Hello "+request.getName())
+                .setAge(29)
                 .build();
 
         responseObserver.onNext(response);

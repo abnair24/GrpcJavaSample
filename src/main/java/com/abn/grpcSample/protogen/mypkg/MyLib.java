@@ -5,6 +5,7 @@ import com.abn.grpcSample.protogen.mypkg.domain.GrpcGenericClient;
 import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
 import com.abn.grpcSample.protogen.mypkg.utils.MarshallFor;
+import com.abn.grpcSample.protogen.mypkg.utils.ProtoBufDecoder;
 import com.abn.grpcSample.protogen.mypkg.utils.ProtoUtility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,11 +19,11 @@ import io.grpc.MethodDescriptor.MethodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class MyLib {
 
     private static final Logger logger = LoggerFactory.getLogger(MyLib.class);
-
 
     public <Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, String requestJsonAsString,
                            Class<Out> outputClass) throws Exception {
@@ -41,7 +42,9 @@ public class MyLib {
     public <In,Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, In requestObject,
                            Class<Out> outputClass) throws Exception {
 
-        Path binaryFilePath = ProtoUtility.getDescriptorBinary(protoDetail);
+   Path binaryFilePath = ProtoUtility.getDescriptorBinary(protoDetail);
+
+      //  Path binaryFilePath = Paths.get("/Users/aswathyn/Desktop/dummypb2.bin");
 
         MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail,binaryFilePath);
 
@@ -57,13 +60,13 @@ public class MyLib {
                        MethodDescriptor methodDescriptor,
                        DynamicMessage requestAsDynamicMessage) throws InvalidProtocolBufferException {
 
-        ManagedChannel managedChannel= new ChannelBuilder().createChannelWithMetadata(serverConfig);
+        ManagedChannel managedChannel= new ChannelBuilder().createChannel(serverConfig);
 
         String methodFullName = protoDetail.getMethodFullName();
 
         Out responseAsObject;
 
-        MethodType methodType = ProtoUtility.getMethodType(methodDescriptor);
+        MethodType methodType = ProtoBufDecoder.getMethodType(methodDescriptor);
 
         if(methodType == MethodType.UNARY)
         {
