@@ -88,6 +88,6 @@ idea {
     }
 }
 
-clean {
-    delete "$projectDir/src/generated"
-}
+//clean {
+//    delete "$projectDir/src/generated"
+//}

@@ -29,7 +29,7 @@ public class ProtoBufDecoder {
                                              Map<String,Set<Descriptors.FileDescriptor>>fdDependencyMap,
                                              Map<String,Descriptors.FileDescriptor>fdMap) {
 
-        List<DescriptorProtos.FileDescriptorProto> fdProtoList = fdSet.getFileList();
+      //  List<DescriptorProtos.FileDescriptorProto> fdProtoList = fdSet.getFileList();
 
         for (DescriptorProtos.FileDescriptorProto fdProto : fdSet.getFileList()) {
             if (!fdMap.containsKey(fdProto.getName())) {

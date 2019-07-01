@@ -21,6 +21,7 @@ public class ProtoDetail {
     private final String serviceName;
     private final String packageName;
     private final String methodName;
+    private final String descriptorFile;
     private final List<String> protoFilesPath;
 
     public ProtoDetail(String protoPath, String fullMethodName) {
@@ -36,6 +37,18 @@ public class ProtoDetail {
         this.packageName = getPackageName(fullMethodName);
         this.methodName = getMethodName(fullMethodName, fullService.length());
         this.protoFilesPath = getAllProtoFiles(protoPath);
+        this.descriptorFile = getDescriptorFilePath().toAbsolutePath().toString();
+    }
+
+    private Path getDescriptorFilePath() {
+        Path descFilePath = null;
+        try {
+           descFilePath  = Files.createTempFile(Paths.get(System.getProperty("user.dir")+"/temp"),"ProtoDesc", ".desc");
+            System.out.println(descFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return descFilePath;
     }
 
     private List<String> getAllProtoFiles(String protoPath) {
@@ -86,4 +99,7 @@ public class ProtoDetail {
         return protoFilesPath;
     }
 
+    public String getDescriptorFile() {
+        return descriptorFile;
+    }
 }

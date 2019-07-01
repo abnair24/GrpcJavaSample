@@ -9,20 +9,20 @@ public class GreeterServiceImpl extends GreeterGrpc.GreeterImplBase {
     public void sayHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
         System.out.println(request);
 
-        HelloResponse response = HelloResponse
-                .newBuilder()
-                .setMessage("Hello "+request.getName())
-                .setAge(29)
-                .build();
+            HelloResponse response = HelloResponse.newBuilder()
+                    .setMessage("Hello "+request.getName())
 
-        responseObserver.onNext(response);
+                    .setAge(29)
+                    .build();
 
-        responseObserver.onCompleted();
+            responseObserver.onNext(response);
+
+            responseObserver.onCompleted();
     }
 
     /*
-    Unary
-     */
+        Unary
+         */
     @Override
     public void greet(GreetRequest request, StreamObserver<GreetResponse> responseObserver) {
 
