@@ -21,7 +21,6 @@ public class ProtoDetail {
     private final String serviceName;
     private final String packageName;
     private final String methodName;
-   // private final String descriptorFile;
     private final List<String> protoFilesPath;
 
     public ProtoDetail(String protoPath, String fullMethodName) {
@@ -37,22 +36,11 @@ public class ProtoDetail {
         this.packageName = getPackageName(fullMethodName);
         this.methodName = getMethodName(fullMethodName, fullService.length());
         this.protoFilesPath = getAllProtoFiles(protoPath);
-      //  this.descriptorFile = getDescriptorFilePath().toAbsolutePath().toString();
     }
-
-//    private Path getDescriptorFilePath() {
-//        Path descFilePath = null;
-//        try {
-//           descFilePath  = Files.createTempFile(Paths.get(System.getProperty("user.dir")),"ProtoDesc", ".desc");
-//            System.out.println(descFilePath);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return descFilePath;
-//    }
 
     private List<String> getAllProtoFiles(String protoPath) {
         List<String> protoFilesPaths = new ArrayList<>();
+
         Path path = Paths.get(protoPath);
 
         try(DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path,"*.proto")) {
@@ -62,13 +50,12 @@ public class ProtoDetail {
        }
        return protoFilesPaths;
     }
+
     private String getServiceName(String fullService, int i) {
         return getMethodName(fullService, i);
     }
 
-    private String getPackageName(String fullMethodName) {
-        return fullMethodName.substring(0, fullMethodName.lastIndexOf('.'));
-    }
+    private String getPackageName(String fullMethodName) { return fullMethodName.substring(0, fullMethodName.lastIndexOf('.'));}
 
     private String getMethodName(String fullMethodName, int length) {
         return fullMethodName.substring(length + 1);
@@ -90,16 +77,10 @@ public class ProtoDetail {
         return methodName;
     }
 
-    public String getMethodFullName()
-    {
-        return this.getPackageName()+"."+ this.getServiceName()+"/"+this.getMethodName();
-    }
+    public String getMethodFullName() { return this.getPackageName()+"."+ this.getServiceName()+"/"+this.getMethodName(); }
 
     public List<String> getProtoFilesPath() {
         return protoFilesPath;
     }
 
-//    public String getDescriptorFile() {
-//        return descriptorFile;
-//    }
 }
