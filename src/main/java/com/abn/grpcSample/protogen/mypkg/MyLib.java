@@ -6,6 +6,7 @@ import com.abn.grpcSample.protogen.mypkg.domain.ProtoDetail;
 import com.abn.grpcSample.protogen.mypkg.domain.ServerConfig;
 import com.abn.grpcSample.protogen.mypkg.utils.MarshallFor;
 import com.abn.grpcSample.protogen.mypkg.utils.ProtoBufDecoder;
+import com.abn.grpcSample.protogen.mypkg.utils.ProtoCache;
 import com.abn.grpcSample.protogen.mypkg.utils.ProtoUtility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +20,6 @@ import io.grpc.MethodDescriptor.MethodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MyLib {
 
@@ -28,9 +28,9 @@ public class MyLib {
     public <Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, String requestJsonAsString,
                            Class<Out> outputClass) throws Exception {
 
-        Path binaryFilePath = ProtoUtility.getDescriptorBinary(protoDetail);
+        Path binaryFilePath = ProtoCache.getBinary(protoDetail);
 
-        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail,binaryFilePath);
+        MethodDescriptor methodDescriptor = ProtoBufDecoder.getMethodDescriptor(protoDetail,binaryFilePath);
 
         DynamicMessage requestAsDynamicMessage =
                 convertJsonRequestToDynamicMessage(methodDescriptor, requestJsonAsString);
@@ -42,11 +42,9 @@ public class MyLib {
     public <In,Out> Out getResponse(ServerConfig serverConfig, ProtoDetail protoDetail, In requestObject,
                            Class<Out> outputClass) throws Exception {
 
-   Path binaryFilePath = ProtoUtility.getDescriptorBinary(protoDetail);
+   Path binaryFilePath = ProtoCache.getBinary(protoDetail);
 
-      //  Path binaryFilePath = Paths.get("/Users/aswathyn/Desktop/dummypb2.bin");
-
-        MethodDescriptor methodDescriptor = ProtoUtility.getMethodDescriptor(protoDetail,binaryFilePath);
+        MethodDescriptor methodDescriptor = ProtoBufDecoder.getMethodDescriptor(protoDetail,binaryFilePath);
 
         DynamicMessage requestAsDynamicMessage =
                 convertJsonRequestToDynamicMessage(methodDescriptor, requestObject);

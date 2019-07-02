@@ -93,7 +93,7 @@ public class GenerateProtoDescriptor {
 //
 //        CallOptions callOptions = CallOptions.DEFAULT;
 //
-//        //DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getDescriptorBinary, callOptions, request);
+//        //DynamicMessage response = ClientCalls.blockingUnaryCall(managedChannel,getBinary, callOptions, request);
 //
 //        new GrpcGenericClient().unaryCall(managedChannel,getMethodDescriptor,callOptions,request);
 //

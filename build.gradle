@@ -64,6 +64,9 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-core', version: '1.3.0-alpha4'
     // https://mvnrepository.com/artifact/io.grpc/grpc-services
     compile group: 'io.grpc', name: 'grpc-services', version: '1.18.0'
+    // https://mvnrepository.com/artifact/org.testng/testng
+    compile group: 'org.testng', name: 'testng', version: '7.0.0-beta7'
+
 
 }
 

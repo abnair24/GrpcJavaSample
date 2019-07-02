@@ -21,7 +21,7 @@ public class DemoMain {
 
         ProtoDetail protoDetail = new ProtoDetail(protoPath, fullMethod);
             HelloRequest helloRequest = new HelloRequestBuilder().build();
-//
+
         requestAsObject(serverConfig,protoDetail,helloRequest);
 
         String helloRequest1 = "{ name :\"Sasi\"}";
